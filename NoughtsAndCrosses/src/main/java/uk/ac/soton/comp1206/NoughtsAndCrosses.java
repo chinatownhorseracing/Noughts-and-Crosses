@@ -19,6 +19,8 @@ import java.util.ArrayList;
  */
 public class NoughtsAndCrosses extends Application {
     boolean[] isPlayer1Turn = {true};
+    int xWinCount = 0;
+    int oWinCount = 0;
 
     @Override
     public void start(Stage stage) {
@@ -27,8 +29,7 @@ public class NoughtsAndCrosses extends Application {
 
         Button resetButton = new Button("Reset");
 
-        int xWinCount = 0;
-        int oWinCount = 0;
+
         Text xWins = new Text("X wins " + xWinCount);
         Text oWins = new Text("O wins " + oWinCount);
 
@@ -79,7 +80,10 @@ public class NoughtsAndCrosses extends Application {
                     text.setText(winner + " wins");
                 }
                 else if (winner.equals("X")) {
-
+                    xWinCount++;
+                }
+                else if (winner.equals("O")) {
+                    oWinCount++;
                 }
             });
             buttons[i] = button;
