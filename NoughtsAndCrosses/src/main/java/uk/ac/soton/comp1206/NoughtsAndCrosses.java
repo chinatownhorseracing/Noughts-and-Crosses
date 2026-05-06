@@ -34,7 +34,7 @@ public class NoughtsAndCrosses extends Application {
         Text oWins = new Text("O wins " + oWinCount);
 
         Text winMessage = new Text("");
-        Button[] buttons = createButtons(grid, winMessage);
+        Button[] buttons = createButtons(grid, winMessage, xWins, oWins);
 
         addButtonsToGrid(grid, buttons);
         resetButton.setOnAction(e -> {
@@ -42,6 +42,7 @@ public class NoughtsAndCrosses extends Application {
                 button.setText(" ");
             }
             winMessage.setText("");
+            isPlayer1Turn[0] = true;
         });
 
         VBox root = new VBox();
@@ -67,7 +68,7 @@ public class NoughtsAndCrosses extends Application {
         }
     }
 
-    Button[] createButtons(GridPane grid, Text text) {
+    Button[] createButtons(GridPane grid, Text text, Text xWins, Text oWins) {
         Button[] buttons = new Button[9];
         for (int i = 0; i < 9; i++) {
             Button button = new Button(" ");
@@ -78,12 +79,14 @@ public class NoughtsAndCrosses extends Application {
                 winner = checkWinner(grid);
                 if (!winner.equals("")) {
                     text.setText(winner + " wins");
-                }
-                else if (winner.equals("X")) {
-                    xWinCount++;
-                }
-                else if (winner.equals("O")) {
-                    oWinCount++;
+                    if (winner.equals("X")) {
+                        xWinCount++;
+                        xWins.setText("X wins " + xWinCount);
+                    }
+                    else if (winner.equals("O")) {
+                        oWinCount++;
+                        oWins.setText("O wins " + oWinCount);
+                    }
                 }
             });
             buttons[i] = button;
