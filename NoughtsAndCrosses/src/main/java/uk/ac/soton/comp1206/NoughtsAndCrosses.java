@@ -27,6 +27,10 @@ public class NoughtsAndCrosses extends Application {
 
         Button resetButton = new Button("Reset");
 
+        int xWinCount = 0;
+        int oWinCount = 0;
+        Text xWins = new Text("X wins " + xWinCount);
+        Text oWins = new Text("O wins " + oWinCount);
 
         Text winMessage = new Text("");
         Button[] buttons = createButtons(grid, winMessage);
@@ -41,6 +45,8 @@ public class NoughtsAndCrosses extends Application {
 
         VBox root = new VBox();
         root.getChildren().add(resetButton);
+        root.getChildren().add(xWins);
+        root.getChildren().add(oWins);
         root.getChildren().add(grid);
         root.getChildren().add(winMessage);
 
@@ -71,6 +77,9 @@ public class NoughtsAndCrosses extends Application {
                 winner = checkWinner(grid);
                 if (!winner.equals("")) {
                     text.setText(winner + " wins");
+                }
+                else if (winner.equals("X")) {
+
                 }
             });
             buttons[i] = button;
