@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -21,14 +22,17 @@ public class NoughtsAndCrosses extends Application {
 
         GridPane grid = new GridPane();
 
-        Text text = new Text("hahaha");
+        Text text = new Text("");
         Button[] buttons = createButtons(grid, text);
 
 
         addButtonsToGrid(grid, buttons);
         grid.add(text, 0, 3);
 
-        var scene = new Scene(grid, 400, 300);
+        VBox root = new VBox();
+        root.getChildren().add(grid);
+
+        var scene = new Scene(root, 400, 300);
         stage.setScene(scene);
         stage.show();
     }
@@ -52,7 +56,7 @@ public class NoughtsAndCrosses extends Application {
             button.setOnAction(e -> {
                 playGame(button);
                 String winner = "";
-                checkWinner(grid);
+                winner = checkWinner(grid);
                 if (!winner.equals("")) {
                     text.setText(winner + " wins");
                 }
@@ -74,51 +78,72 @@ public class NoughtsAndCrosses extends Application {
         grid.add(buttons[8], 2, 2);
     }
 
-    void checkWinner(GridPane grid) {
+    String checkWinner(GridPane grid) {
         String winner = "";
         String[][] buttonValues2DArray = get2DArrayFromGrid(grid);
-        for (int i = 0; i < 3; i++) {
-            checkHorizontalWin(buttonValues2DArray, i, "X", "O", winner);
-            checkVerticalWin(buttonValues2DArray, i, "X", "O");
+        winner = checkHorizontalWin(buttonValues2DArray, "X", "O");
+        if (winner.equals("")) {
+            winner = checkVerticalWin(buttonValues2DArray, "X", "O");
         }
-        checkLeftToRightDiagonalWin(buttonValues2DArray, "X", "O");
-        checkRightToLeftDiagonalWin(buttonValues2DArray, "X", "O");
+        if (winner.equals("")) {
+            winner = checkLeftToRightDiagonalWin(buttonValues2DArray, "X", "O");
+        }
+        if (winner.equals("")) {
+            winner = checkRightToLeftDiagonalWin(buttonValues2DArray, "X", "O");
+        }
+        return winner;
     }
 
-    void checkHorizontalWin(String[][] twoDArray, int rowNumber, String sign1, String sign2, String winner) {
-        if (twoDArray[rowNumber][0].equals(sign1) && twoDArray[rowNumber][1].equals(sign1) && twoDArray[rowNumber][2].equals(sign1)) {
+    String checkHorizontalWin(String[][] twoDArray, String sign1, String sign2) {
+        String winner = "";
+        for (int i = 0; i < 3; i++) {
+            if (twoDArray[i][0].equals(sign1) && twoDArray[i][1].equals(sign1) && twoDArray[i][2].equals(sign1)) {
+                winner = sign1;
+                break;
+            }
+            else if (twoDArray[i][0].equals(sign2) && twoDArray[i][1].equals(sign2) && twoDArray[i][2].equals(sign2)) {
+                winner = sign2;
+                break;
+            }
+        }
+        return winner;
+    }
+
+    String checkVerticalWin(String[][] twoDArray, String sign1, String sign2) {
+        String winner = "";
+        for (int i = 0; i < 3; i++) {
+            if (twoDArray[0][i].equals(sign1) && twoDArray[1][i].equals(sign1) && twoDArray[2][i].equals(sign1)) {
+                winner = sign1;
+                break;
+            }
+            else if (twoDArray[0][i].equals(sign2) && twoDArray[1][i].equals(sign2) && twoDArray[2][i].equals(sign2)) {
+                winner = sign2;
+                break;
+            }
+        }
+        return winner;
+    }
+
+    String checkLeftToRightDiagonalWin(String[][] twoDArray, String sign1, String sign2) {
+        String winner = "";
+        if (twoDArray[0][0].equals(sign1) && twoDArray[1][1].equals(sign1) && twoDArray[2][2].equals(sign1)) {
             winner = sign1;
         }
-        else if (twoDArray[rowNumber][0].equals(sign2) && twoDArray[rowNumber][1].equals(sign2) && twoDArray[rowNumber][2].equals(sign2)) {
+        else if (twoDArray[0][0].equals(sign2) && twoDArray[1][1].equals(sign2) && twoDArray[2][2].equals(sign2)) {
             winner = sign2;
         }
+        return winner;
     }
 
-    void checkVerticalWin(String[][] twoDArray, int columnNumber, String sign1, String sign2) {
-        if (twoDArray[0][columnNumber].equals(sign1) && twoDArray[1][columnNumber].equals(sign1) && twoDArray[2][columnNumber].equals(sign1)) {
-            System.out.println(sign1 + " wins");
-        }
-        else if (twoDArray[0][columnNumber].equals(sign2) && twoDArray[1][columnNumber].equals(sign2) && twoDArray[2][columnNumber].equals(sign2)) {
-            System.out.println(sign2 + " wins");
-        }
-    }
-
-    void checkLeftToRightDiagonalWin(String[][] twoDArray, String sign1, String sign2) {
-        if (twoDArray[0][0].equals(sign1) && twoDArray[1][1].equals(sign1) && twoDArray[2][2].equals(sign1)) {
-            System.out.println(sign1 + " wins");
-        }
-        else if (twoDArray[0][0].equals(sign2) && twoDArray[1][1].equals(sign2) && twoDArray[2][2].equals(sign2)) {
-            System.out.println(sign2 + " wins");
-        }
-    }
-
-    void checkRightToLeftDiagonalWin(String[][] twoDArray, String sign1, String sign2) {
+    String checkRightToLeftDiagonalWin(String[][] twoDArray, String sign1, String sign2) {
+        String winner = "";
         if (twoDArray[0][2].equals(sign1) && twoDArray[1][1].equals(sign1) && twoDArray[2][0].equals(sign1)) {
-            System.out.println(sign1 + " wins");
+            winner = sign1;
         }
         else if (twoDArray[0][2].equals(sign2) && twoDArray[1][1].equals(sign2) && twoDArray[2][0].equals(sign2)) {
-            System.out.println(sign2 + " wins");
+            winner = sign2;
         }
+        return winner;
     }
 
     ArrayList<String> putGridValuesInList(GridPane grid) {
