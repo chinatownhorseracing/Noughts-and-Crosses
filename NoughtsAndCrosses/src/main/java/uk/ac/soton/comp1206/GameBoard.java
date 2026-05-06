@@ -9,6 +9,7 @@ public class GameBoard {
 
     public GameBoard(int size) {
         this.size = size;
+        this.board = new String[size][size];
     }
 
     public void resetBoard() {
