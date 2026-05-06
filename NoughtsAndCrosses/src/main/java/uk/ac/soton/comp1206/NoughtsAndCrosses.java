@@ -1,6 +1,9 @@
 package uk.ac.soton.comp1206;
 
 import javafx.application.Application;
+import javafx.beans.Observable;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -22,15 +25,24 @@ public class NoughtsAndCrosses extends Application {
 
         GridPane grid = new GridPane();
 
-        Text text = new Text("");
-        Button[] buttons = createButtons(grid, text);
+        Button resetButton = new Button("Reset");
 
+
+        Text winMessage = new Text("");
+        Button[] buttons = createButtons(grid, winMessage);
 
         addButtonsToGrid(grid, buttons);
-        grid.add(text, 0, 3);
+        resetButton.setOnAction(e -> {
+            for (Button button: buttons) {
+                button.setText(" ");
+            }
+            winMessage.setText("");
+        });
 
         VBox root = new VBox();
+        root.getChildren().add(resetButton);
         root.getChildren().add(grid);
+        root.getChildren().add(winMessage);
 
         var scene = new Scene(root, 400, 300);
         stage.setScene(scene);
