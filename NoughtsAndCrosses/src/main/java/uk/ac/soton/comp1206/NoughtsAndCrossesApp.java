@@ -17,14 +17,14 @@ import java.util.ArrayList;
 public class NoughtsAndCrossesApp extends Application {
     GameBoard gameBoard = new GameBoard(3);
     int size = gameBoard.size;
-    String currentPlayer = gameBoard.currentPlayer;
+    Button[][] buttons;
 
     @Override
     public void start(Stage stage) {
 
         GridPane grid = new GridPane();
 
-        Button[] buttons = createButtons(grid);
+        buttons = createButtons(grid);
 
         addButtonsToGrid(grid, buttons);
 
@@ -52,22 +52,34 @@ public class NoughtsAndCrossesApp extends Application {
         return buttons;
     }
 
-    void addButtonsToGrid(GridPane grid, Button[] buttons) {
-        grid.add(buttons[0], 0, 0);
-        grid.add(buttons[1], 1, 0);
-        grid.add(buttons[2], 2, 0);
-        grid.add(buttons[3], 0, 1);
-        grid.add(buttons[4], 1, 1);
-        grid.add(buttons[5], 2, 1);
-        grid.add(buttons[6], 0, 2);
-        grid.add(buttons[7], 1, 2);
-        grid.add(buttons[8], 2, 2);
+    void addButtonsToGrid(GridPane grid, Button[][] buttons) {
+        grid.add(buttons[0][0], 0, 0);
+        grid.add(buttons[0][1], 1, 0);
+        grid.add(buttons[0][2], 2, 0);
+        grid.add(buttons[1][0], 0, 1);
+        grid.add(buttons[1][1], 1, 1);
+        grid.add(buttons[1][2], 2, 1);
+        grid.add(buttons[2][0], 0, 2);
+        grid.add(buttons[2][1], 1, 2);
+        grid.add(buttons[2][2], 2, 2);
     }
 
     public void handleMove(Button button, int finalRow, int finalCol) {
         gameBoard.makeMove(finalRow, finalCol);
-        button.setText(currentPlayer);
-        gameBoard.checkWinner
+        button.setText(gameBoard.currentPlayer);
+        String winner = gameBoard.checkWinner();
+        if (!winner.equals(gameBoard.currentPlayer)) {
+            gameBoard.switchPlayer();
+        }
+        else {
+            gameBoard.resetBoard();
+            gameBoard.resetPlayer();
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    buttons[i][j].setText("");
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {

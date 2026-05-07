@@ -10,6 +10,11 @@ public class GameBoard {
     public GameBoard(int size) {
         this.size = size;
         this.board = new String[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                board[i][j] = "";
+            }
+        }
     }
 
     public void resetBoard() {
@@ -28,6 +33,10 @@ public class GameBoard {
             currentPlayer = "X";
         }
 
+    }
+
+    public void resetPlayer() {
+        currentPlayer = "X";
     }
 
     public void makeMove(int row, int col) {
