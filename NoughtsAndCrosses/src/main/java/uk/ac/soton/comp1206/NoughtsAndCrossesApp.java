@@ -3,6 +3,7 @@ package uk.ac.soton.comp1206;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -21,17 +22,68 @@ public class NoughtsAndCrossesApp extends Application {
 
     @Override
     public void start(Stage stage) {
-
+        // Game screen
         GridPane grid = new GridPane();
-
         buttons = createButtons(grid);
-
         addButtonsToGrid(grid, buttons);
+        var gameScene = new Scene(grid, 400, 300);
 
-        var scene = new Scene(grid, 400, 300);
-        stage.setScene(scene);
+
+        // Start screen
+        TextField gridSizeField = new TextField("3");
+        TextField xPlayerNameField = new TextField();
+        TextField oPlayerNameField = new TextField();
+        Button startButton = new Button("Start");
+        startButton.setOnAction(e -> {
+            if (!xPlayerNameField.getText().isEmpty() && !oPlayerNameField.getText().isEmpty()) {
+
+                int gridSize = Integer.parseInt(gridSizeField.getText());
+
+                gameBoard = new GameBoard(gridSize);
+
+                size = gridSize;
+
+                stage.setScene(gameScene);
+            }
+        });
+
+        VBox startContainer = new VBox();
+        startContainer.getChildren().add(gridSizeField);
+        startContainer.getChildren().add(xPlayerNameField);
+        startContainer.getChildren().add(oPlayerNameField);
+        startContainer.getChildren().add(startButton);
+        Scene startScene = new Scene(startContainer, 400, 300);
+
+        stage.setScene(startScene);
         stage.show();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     Button[][] createButtons(GridPane grid) {
         Button[][] buttons = new Button[size][size];
