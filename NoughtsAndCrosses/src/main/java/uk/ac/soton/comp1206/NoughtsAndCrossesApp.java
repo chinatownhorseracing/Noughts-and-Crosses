@@ -22,18 +22,20 @@ public class NoughtsAndCrossesApp extends Application {
 
     @Override
     public void start(Stage stage) {
-        // Game screen
-        GridPane grid = new GridPane();
-        buttons = createButtons(grid);
-        addButtonsToGrid(grid, buttons);
-        var gameScene = new Scene(grid, 400, 300);
-
 
         // Start screen
         TextField gridSizeField = new TextField("3");
         TextField xPlayerNameField = new TextField();
         TextField oPlayerNameField = new TextField();
         Button startButton = new Button("Start");
+
+        // Create empty game grid first
+        GridPane grid = new GridPane();
+
+        // Create game scene BEFORE lambda
+        Scene gameScene = new Scene(grid, 400, 300);
+
+
         startButton.setOnAction(e -> {
             if (!xPlayerNameField.getText().isEmpty() && !oPlayerNameField.getText().isEmpty()) {
 
@@ -46,13 +48,18 @@ public class NoughtsAndCrossesApp extends Application {
                 stage.setScene(gameScene);
             }
         });
-
         VBox startContainer = new VBox();
         startContainer.getChildren().add(gridSizeField);
         startContainer.getChildren().add(xPlayerNameField);
         startContainer.getChildren().add(oPlayerNameField);
         startContainer.getChildren().add(startButton);
         Scene startScene = new Scene(startContainer, 400, 300);
+
+        // Game screen
+        GridPane grid = new GridPane();
+        buttons = createButtons(grid);
+        addButtonsToGrid(grid, buttons);
+        var gameScene = new Scene(grid, 400, 300);
 
         stage.setScene(startScene);
         stage.show();
