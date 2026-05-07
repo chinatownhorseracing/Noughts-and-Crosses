@@ -45,6 +45,12 @@ public class NoughtsAndCrossesApp extends Application {
 
                 size = gridSize;
 
+                grid.getChildren().clear();
+
+                buttons = createButtons(grid);
+
+                addButtonsToGrid(grid, buttons);
+
                 stage.setScene(gameScene);
             }
         });
@@ -56,10 +62,10 @@ public class NoughtsAndCrossesApp extends Application {
         Scene startScene = new Scene(startContainer, 400, 300);
 
         // Game screen
-        GridPane grid = new GridPane();
-        buttons = createButtons(grid);
-        addButtonsToGrid(grid, buttons);
-        var gameScene = new Scene(grid, 400, 300);
+//        GridPane grid = new GridPane();
+//        buttons = createButtons(grid);
+//        addButtonsToGrid(grid, buttons);
+//        var gameScene = new Scene(grid, 400, 300);
 
         stage.setScene(startScene);
         stage.show();
@@ -112,15 +118,11 @@ public class NoughtsAndCrossesApp extends Application {
     }
 
     void addButtonsToGrid(GridPane grid, Button[][] buttons) {
-        grid.add(buttons[0][0], 0, 0);
-        grid.add(buttons[0][1], 1, 0);
-        grid.add(buttons[0][2], 2, 0);
-        grid.add(buttons[1][0], 0, 1);
-        grid.add(buttons[1][1], 1, 1);
-        grid.add(buttons[1][2], 2, 1);
-        grid.add(buttons[2][0], 0, 2);
-        grid.add(buttons[2][1], 1, 2);
-        grid.add(buttons[2][2], 2, 2);
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                grid.add(buttons[i][j], j, i);
+            }
+        }
     }
 
     public void handleMove(Button button, int finalRow, int finalCol) {
