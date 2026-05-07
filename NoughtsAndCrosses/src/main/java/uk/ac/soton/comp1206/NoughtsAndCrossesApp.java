@@ -19,6 +19,10 @@ public class NoughtsAndCrossesApp extends Application {
     GameBoard gameBoard = new GameBoard(3);
     int size = gameBoard.size;
     Button[][] buttons;
+    VBox gameContainer;
+    Text player1Name;
+    Text player2Name;
+    Text winMessage;
 
     @Override
     public void start(Stage stage) {
@@ -31,9 +35,10 @@ public class NoughtsAndCrossesApp extends Application {
 
         // Create empty game grid first
         GridPane grid = new GridPane();
+        VBox gameContainer = new VBox();
 
-        // Create game scene BEFORE lambda
-        Scene gameScene = new Scene(grid, 400, 300);
+        // Create game scene
+        Scene gameScene = new Scene(gameContainer, 400, 300);
 
 
         startButton.setOnAction(e -> {
@@ -47,9 +52,21 @@ public class NoughtsAndCrossesApp extends Application {
 
                 grid.getChildren().clear();
 
+                player1Name = new Text(xPlayerNameField.getText());
+                player2Name = new Text(oPlayerNameField.getText());
+
                 buttons = createButtons(grid);
 
                 addButtonsToGrid(grid, buttons);
+
+                winMessage = new Text("ha");
+
+                gameContainer.getChildren().add(player1Name);
+                gameContainer.getChildren().add(player2Name);
+                gameContainer.getChildren().add(grid);
+                gameContainer.getChildren().add(winMessage);
+
+//                grid.add(winMessage, 0, size);
 
                 stage.setScene(gameScene);
             }
@@ -60,12 +77,6 @@ public class NoughtsAndCrossesApp extends Application {
         startContainer.getChildren().add(oPlayerNameField);
         startContainer.getChildren().add(startButton);
         Scene startScene = new Scene(startContainer, 400, 300);
-
-        // Game screen
-//        GridPane grid = new GridPane();
-//        buttons = createButtons(grid);
-//        addButtonsToGrid(grid, buttons);
-//        var gameScene = new Scene(grid, 400, 300);
 
         stage.setScene(startScene);
         stage.show();

@@ -47,68 +47,104 @@ public class GameBoard {
 
     public String checkWinner() {
         String winner = "";
-        winner = checkHorizontalWin(board, "X", "O");
+        winner = checkHorizontalWin(board);
         if (winner.equals("")) {
-            winner = checkVerticalWin(board, "X", "O");
-        }
-        if (winner.equals("")) {
-            winner = checkLeftToRightDiagonalWin(board, "X", "O");
+            winner = checkVerticalWin(board);
         }
         if (winner.equals("")) {
-            winner = checkRightToLeftDiagonalWin(board, "X", "O");
+            winner = checkLeftToRightDiagonalWin(board);
+        }
+        if (winner.equals("")) {
+            winner = checkRightToLeftDiagonalWin(board);
         }
         return winner;
     }
 
-    String checkHorizontalWin(String[][] twoDArray, String sign1, String sign2) {
-        String winner = "";
-        for (int i = 0; i < 3; i++) {
-            if (twoDArray[i][0].equals(sign1) && twoDArray[i][1].equals(sign1) && twoDArray[i][2].equals(sign1)) {
-                winner = sign1;
-                break;
+    String checkHorizontalWin(String[][] twoDArray) {
+
+        for (int i = 0; i < size; i++) {
+
+            String first = twoDArray[i][0];
+
+            if (first.equals("")) {
+                continue;
             }
-            else if (twoDArray[i][0].equals(sign2) && twoDArray[i][1].equals(sign2) && twoDArray[i][2].equals(sign2)) {
-                winner = sign2;
-                break;
+
+            boolean win = true;
+
+            for (int j = 1; j < size; j++) {
+                if (!twoDArray[i][j].equals(first)) {
+                    win = false;
+                    break;
+                }
+            }
+
+            if (win) {
+                return first;
             }
         }
-        return winner;
+
+        return "";
     }
 
-    String checkVerticalWin(String[][] twoDArray, String sign1, String sign2) {
-        String winner = "";
-        for (int i = 0; i < 3; i++) {
-            if (twoDArray[0][i].equals(sign1) && twoDArray[1][i].equals(sign1) && twoDArray[2][i].equals(sign1)) {
-                winner = sign1;
-                break;
+    String checkVerticalWin(String[][] twoDArray) {
+
+        for (int i = 0; i < size; i++) {
+
+            String first = twoDArray[0][i];
+
+            if (first.equals("")) {
+                continue;
             }
-            else if (twoDArray[0][i].equals(sign2) && twoDArray[1][i].equals(sign2) && twoDArray[2][i].equals(sign2)) {
-                winner = sign2;
-                break;
+
+            boolean win = true;
+
+            for (int j = 1; j < size; j++) {
+                if (!twoDArray[j][i].equals(first)) {
+                    win = false;
+                    break;
+                }
+            }
+
+            if (win) {
+                return first;
             }
         }
-        return winner;
+
+        return "";
     }
 
-    String checkLeftToRightDiagonalWin(String[][] twoDArray, String sign1, String sign2) {
-        String winner = "";
-        if (twoDArray[0][0].equals(sign1) && twoDArray[1][1].equals(sign1) && twoDArray[2][2].equals(sign1)) {
-            winner = sign1;
+    String checkLeftToRightDiagonalWin(String[][] twoDArray) {
+
+        String first = twoDArray[0][0];
+
+        if (first.equals("")) {
+            return "";
         }
-        else if (twoDArray[0][0].equals(sign2) && twoDArray[1][1].equals(sign2) && twoDArray[2][2].equals(sign2)) {
-            winner = sign2;
+
+        for (int i = 1; i < size; i++) {
+            if (!twoDArray[i][i].equals(first)) {
+                return "";
+            }
         }
-        return winner;
+
+        return first;
     }
 
-    String checkRightToLeftDiagonalWin(String[][] twoDArray, String sign1, String sign2) {
-        String winner = "";
-        if (twoDArray[0][2].equals(sign1) && twoDArray[1][1].equals(sign1) && twoDArray[2][0].equals(sign1)) {
-            winner = sign1;
+    String checkRightToLeftDiagonalWin(String[][] twoDArray) {
+
+        String first = twoDArray[0][size - 1];
+
+        if (first.equals("")) {
+            return "";
         }
-        else if (twoDArray[0][2].equals(sign2) && twoDArray[1][1].equals(sign2) && twoDArray[2][0].equals(sign2)) {
-            winner = sign2;
+
+        for (int i = 1; i < size; i++) {
+            if (!twoDArray[i][size - 1 - i].equals(first)) {
+                return "";
+            }
         }
-        return winner;
+
+        return first;
     }
 }
